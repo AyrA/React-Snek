@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/react-snek/obj/Debug
+/react-snek/dist
+/react-snek/node_modules
+/react-snek/.vscode
