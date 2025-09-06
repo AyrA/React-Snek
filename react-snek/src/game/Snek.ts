@@ -36,6 +36,11 @@ export default class Snek {
     /** Id of last tick handler */
     #tickHandler = 0;
 
+    /** Gets whether a game is running or not.
+     * 
+     * A game can be started using "reset()" if it's not running
+     */
+    get running() { return !this.#end }
     /** Gets the width of the field */
     get width() { return this.#width }
     /** Gets the height of the field */

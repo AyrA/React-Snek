@@ -85,6 +85,7 @@ function App() {
             </p>
             <div>{field(snek.current)}</div>
             <p>Form controls are a completely adequate rendering engine</p>
+            <a href="https://github.com/AyrA/React-Snek" rel="noreferrer nofollow noopener" target="_blank">Source Code</a>
         </div>
     )
 }
