@@ -4,7 +4,7 @@ import Snek from './game/Snek'
 import type { JSX } from 'react/jsx-runtime';
 
 function App() {
-    const snek = useRef(new Snek(50, 20));
+    const snek = useRef(new Snek(50, 20, true));
     const setMatrix = useState(snek.current.state)[1];
 
     function handleKeyDown(e: KeyboardEvent) {
@@ -79,7 +79,7 @@ function App() {
         <div>
             <h1>Snek</h1>
             <p>
-                Use <kbd>WASD</kbd> or <kbd>&larr;&uarr;&rarr;&darr;</kbd> to move.<br />
+                Use <kbd>WASD</kbd> or <kbd>&larr;&uarr;&rarr;&darr;</kbd> to move. The field wraps around.<br />
                 Press <kbd>R</kbd> to reset.<br />
                 Hold <kbd>SPACE</kbd> to temporarily speed up.
             </p>

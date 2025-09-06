@@ -7,6 +7,7 @@ export default class Position {
     #y: number;
     #w: number;
     #h: number;
+    #wrap: boolean;
 
     /** Gets the current X coordinate */
     get x() { return this.#x }
@@ -15,16 +16,24 @@ export default class Position {
 
     /** Sets the current X coordinate */
     set x(value: number) {
-        if (Position.#clamp(0, value | 0, this.#w - 1) !== value) {
-            throw new Error("Invalid value");
+        value |= 0;
+        if (this.#wrap) {
+            value = Math.abs(value % this.#w);
+        }
+        if (value < 0 || value >= this.#w) {
+            throw new Error("Invalid X value");
         }
         this.#x = value;
     }
 
     /** Sets the current Y coordinate */
     set y(value: number) {
-        if (Position.#clamp(0, value | 0, this.#h - 1) !== value) {
-            throw new Error("Invalid value");
+        value |= 0;
+        if (this.#wrap) {
+            value = Math.abs(value % this.#h);
+        }
+        if (value < 0 || value >= this.#h) {
+            throw new Error("Invalid Y value");
         }
         this.#y = value;
     }
@@ -47,12 +56,42 @@ export default class Position {
      * @param y Y position
      * @param width grid width
      * @param height grid height
+     * @param wrap allow X and Y to wrap around
      */
-    constructor(x: number, y: number, width: number, height: number) {
-        this.#w = Math.max(1, width | 0);
-        this.#h = Math.max(1, height | 0);
-        this.#x = Position.#clamp(0, x | 0, this.#w - 1);
-        this.#y = Position.#clamp(0, y | 0, this.#h - 1);
+    constructor(x: number, y: number, width: number, height: number, wrap: boolean) {
+        //Clamp to integers
+        width |= 0;
+        height |= 0;
+        x |= 0;
+        y |= 0;
+        this.#wrap = wrap;
+        if (width < 1 || height < 1) {
+            throw new Error("Width and height must be at least 1");
+        }
+        if (wrap) {
+            if (x < 0) {
+                x = width + (x % width);
+            }
+            else {
+                x = x % width;
+            }
+            if (y < 0) {
+                y = height + (y % height);
+            }
+            else {
+                y = y % height;
+            }
+        }
+        if (x < 0 || x >= width) {
+            throw new Error("X coordinate out of bounds, and wraparound was not allowed");
+        }
+        if (y < 0 || y >= height) {
+            throw new Error("Y coordinate out of bounds, and wraparound was not allowed");
+        }
+        this.#w = width;
+        this.#h = height;
+        this.#x = x;
+        this.#y = y;
     }
 
     /**

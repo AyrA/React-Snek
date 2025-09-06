@@ -35,6 +35,8 @@ export default class Snek {
     #size = 10;
     /** Id of last tick handler */
     #tickHandler = 0;
+    /** Allow wraparound */
+    #wrap = false;
 
     /** Gets whether a game is running or not.
      * 
@@ -66,12 +68,14 @@ export default class Snek {
      * Creates a new Snek instance
      * @param width  field width (minimum: 9)
      * @param height field height (minimum: 9)
+     * @param wrap Support wraparound
      */
-    constructor(width: number, height: number) {
+    constructor(width: number, height: number, wrap: boolean) {
         this.#width = Math.max(9, width | 0);
         this.#height = Math.max(9, height | 0);
         this.#state = Array(this.#width * this.#height).fill(0);
-        this.#head = new Position(this.#width / 2 | 0, this.#height / 2 | 0, this.#width, this.#height);
+        this.#head = new Position(this.#width / 2 | 0, this.#height / 2 | 0, this.#width, this.#height, wrap);
+        this.#wrap = wrap;
     }
 
     /** Resets the game to the initial state and clears game over condition
@@ -123,7 +127,7 @@ export default class Snek {
                 }
             }
             catch (e) {
-                console.log("Game over", e);
+                console.log(e);
                 this.#end = true;
             }
             this.#events.forEach((handler) => {
@@ -195,7 +199,7 @@ export default class Snek {
      * @returns offset
      */
     offset(x: number, y: number) {
-        return new Position(x, y, this.#width, this.#height).offset;
+        return new Position(x, y, this.#width, this.#height, this.#wrap).offset;
     }
 
     /** Registers a handler that is called after each tick has been processed
@@ -247,13 +251,13 @@ export default class Snek {
         const head = this.#head;
         switch (this.#dir) {
             case Direction.Up:
-                return new Position(head.x, head.y - 1, head.width, head.height);
+                return new Position(head.x, head.y - 1, head.width, head.height, this.#wrap);
             case Direction.Down:
-                return new Position(head.x, head.y + 1, head.width, head.height);
+                return new Position(head.x, head.y + 1, head.width, head.height, this.#wrap);
             case Direction.Left:
-                return new Position(head.x - 1, head.y, head.width, head.height);
+                return new Position(head.x - 1, head.y, head.width, head.height, this.#wrap);
             case Direction.Right:
-                return new Position(head.x + 1, head.y, head.width, head.height);
+                return new Position(head.x + 1, head.y, head.width, head.height, this.#wrap);
         }
         throw new Error("Unknown direction: " + this.#dir);
     }
