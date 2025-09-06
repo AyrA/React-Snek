@@ -93,15 +93,4 @@ export default class Position {
         this.#x = x;
         this.#y = y;
     }
-
-    /**
-     * Clamps a value
-     * @param min Minimum inclusive value
-     * @param val Value
-     * @param max Maximum inclusive value
-     * @returns Clamped value
-     */
-    static #clamp(min: number, val: number, max: number) {
-        return Math.min(max, Math.max(min, val));
-    }
 }
