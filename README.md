@@ -3,7 +3,7 @@
 A snake game. This game doesn't depends on any external dependencies not present in standard JS engines.
 The game logic itself is located in the `src/game` directory.
 
-For demonstratio purposes, a react rendering engine has been built around the game so you can play it.
+For demonstration purposes, a react rendering engine has been built around the game so you can play it.
 
 ## Demo
 
@@ -31,7 +31,7 @@ To use the game in your own project, follow these steps:
 6. Hook up the `up()/down()/left()/right()` functions to your input method of choice.
 
 The game state is available (readonly) at any point by using the `state` property.
-It will appear as an array of width&times;height number of cells.
+It will appear as an array of width &times; height number of cells.
 A cell with a negative value is food, zero is empty, and positive value is the snake body.
 The largest positive value is the head, then from there on it decrements by 1 for each body segment.
 The tail is 1.
